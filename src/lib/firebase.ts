@@ -2,10 +2,10 @@
 import { initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-import { getFirestore } from "firebase/firestore";
+import { doc, getFirestore, onSnapshot } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, type User } from "firebase/auth";
 import { getStorage } from "firebase/storage";
-import { writable } from "svelte/store";
+import { writable, type Readable, derived } from "svelte/store";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -22,8 +22,6 @@ const app = initializeApp(firebaseConfig);
 export const db = getFirestore();
 export const auth = getAuth();
 export const storage = getStorage();
-
-
 
 const currentUser = writable<User | null>(null);
 
@@ -59,3 +57,46 @@ function userStore() {
 }
 
 export const user = userStore();
+
+/**
+ * @param  {string} path document path or reference
+ * @returns a store with realtime updates on document data
+ */
+export function docStore<T>(
+  path: string,
+) {
+  let unsubscribe: () => void;
+
+  const docRef = doc(db, path);
+
+  const { subscribe } = writable<T | null>(null, (set) => {
+    unsubscribe = onSnapshot(docRef, (snapshot) => {
+      set((snapshot.data() as T) ?? null);
+    });
+
+    return () => unsubscribe();
+  });
+
+  return {
+    subscribe,
+    ref: docRef,
+    id: docRef.id,
+  };
+}
+
+// Intellisense for TS
+interface UserData {
+  published: any;
+  username: string;
+  bio: string;
+  photoURL: string;
+  links: any[];
+}
+
+export const userData: Readable<UserData | null> = derived(user, ($user, set) => { 
+  if ($user) {
+    return docStore<UserData>(`users/${$user.uid}`).subscribe(set);
+  } else {
+    set(null); 
+  }
+});  
