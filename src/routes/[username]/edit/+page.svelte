@@ -1,4 +1,5 @@
 <script lang="ts">
+    import Navbar from "$lib/components/Navbar.svelte";
     import { page } from "$app/stores";
     import AuthState from "$lib/components/AuthState.svelte";
     import SortableList from "$lib/components/SortableList.svelte";
@@ -12,6 +13,7 @@
       updateDoc,
     } from "firebase/firestore";
     import { writable } from "svelte/store";
+    import { getAuth, signOut } from "firebase/auth";
   
     const icons = [
       "Twitter",
@@ -76,9 +78,33 @@
       formData.set(formDefaults);
       showForm = false;
     }
-  </script>
-  
+
+  //   async function handleSignOut() {
+  //   const auth = getAuth();
+    
+  //   try {
+  //     await signOut(auth);
+      
+  //     window.location.href = "/";
+  //   } catch (error) {
+  //     console.error("Error signing out:");
+  //   }
+  // }
+
+  function copyLinkToClipboard() {
+    const linkElement = document.createElement("textarea");
+    linkElement.value = `https://localhost:5173/${$userData?.username}`;
+    document.body.appendChild(linkElement);
+    linkElement.select();
+    document.execCommand("copy");
+    document.body.removeChild(linkElement);
+    
+  }
+</script>
+
+  <Navbar/>
   <main class="max-w-xl mx-auto">
+    
     {#if $userData?.username == $page.params.username}
       <h1 class="mx-2 text-2xl font-bold mt-8 mb-4 text-center">
         Edit your Profile
@@ -90,15 +116,19 @@
           <a
             href={`/${$userData?.username}`}
             class="link link-accent"
+            target="_blank"
           >
             https://localhost:5173/{$userData?.username}
           </a>
         </p>
+        <button on:click={copyLinkToClipboard} class="btn btn-outline mt-5 btn-xs">
+          Copy to Clipboard
+        </button>
+
+          <a class="btn btn-outline btn-xs" href="/login/photo">Change photo</a>
       </div>
   
-      <div class="text-center my-4">
-        <a class="btn btn-outline btn-xs" href="/login/photo">Change photo</a>
-      </div>
+
   
       <form class="form-control">
         <label class="label cursor-pointer flex items-start justify-center">
@@ -187,4 +217,5 @@
         </button>
       {/if}
     {/if}
+
   </main>
