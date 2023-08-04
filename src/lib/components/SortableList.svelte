@@ -77,6 +77,6 @@
   
   <style>
     .over {
-      @apply border-gray-400 scale-105;
+      @apply border-black scale-105;
     }
   </style>
