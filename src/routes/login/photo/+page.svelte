@@ -22,13 +22,15 @@
   </script>
   
   <AuthState>
-    <h2 class="card-title">Upload a Profile Photo</h2>
+    <h2 class="card-title">UPLOAD A PROFILE IMAGE</h2>
+    <h4 class="bg-yellow-300 italic">&nbsp; (This will be displayed on your profile) &nbsp;</h4>
   
     <form class="max-w-screen-md w-full">
       <div class="form-control w-full max-w-xs my-10 mx-auto text-center">
+        <!-- svelte-ignore a11y-img-redundant-alt -->
         <img
           src={previewURL ?? $userData?.photoURL ?? "/user.png"}
-          alt="photoURL"
+          alt="Your image will appear here..."
           width="256"
           height="256"
           class="mx-auto"
@@ -45,10 +47,10 @@
         />
         {#if uploading}
           <p>Uploading...</p>
-          <progress class="progress progress-info w-56 mt-6" />
+          <progress class="progress progress-success w-56 mt-6" />
         {/if}
       </div>
     </form>
   
-    <a {href} class="btn btn-primary"> Finish </a>
+    <a {href} class="btn btn-success"> Finish </a>
   </AuthState>

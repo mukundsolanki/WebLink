@@ -23,8 +23,15 @@
   </ul>
 </nav>
 
+<style>
+  main {
+    width: 80%;
+    margin: 0 auto;
+  }
+</style>
+
 <Animation>
-  <main class="card w-4/6 bg-neutral text-neutral-content mx-auto">
+  <main class="card w-4/6  text-black-content mx-auto justify-center ">
     <div class="card-body items-center text-center">
       <slot />
     </div>

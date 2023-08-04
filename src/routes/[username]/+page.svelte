@@ -12,7 +12,7 @@
   
   <main class="prose text-center mx-auto mt-8">
 
-    <h1 class="text-5xl text-purple-500">
+    <h1 class="text-5xl text-stone-950">
       @{data.username}
     </h1>
   

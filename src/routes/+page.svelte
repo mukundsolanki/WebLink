@@ -16,9 +16,9 @@
           <h1 class="text-7xl font-bold">W E B L I N K</h1>
           <p class="py-6 text-2xl">One place for all your links</p> 
           {#if $userData?.username}
-            <a href="/{$userData.username}/edit" class="btn btn-primary">Go to your profile</a>
+            <a href="/{$userData.username}/edit" class="btn btn-warning">Go to your profile</a>
           {:else}
-            <a href="/login" class="btn btn-primary">Get Started</a>
+            <a href="/login" class="btn btn-success">Get Started</a>
           {/if}
         </div>
       </div>

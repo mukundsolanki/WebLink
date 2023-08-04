@@ -13,7 +13,6 @@
       updateDoc,
     } from "firebase/firestore";
     import { writable } from "svelte/store";
-    import { getAuth, signOut } from "firebase/auth";
   
     const icons = [
       "Twitter",
@@ -106,10 +105,6 @@
   <main class="max-w-xl mx-auto">
     
     {#if $userData?.username == $page.params.username}
-      <h1 class="mx-2 text-2xl font-bold mt-8 mb-4 text-center">
-        Edit your Profile
-      </h1>
-  
       <div class="text-center mb-8">
         <p>
           Profile Link:
