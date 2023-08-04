@@ -1,7 +1,7 @@
 <script>
     export let icon = 'default';
-    export let url = 'foo';
-    export let title = 'some cool title';
+    export let url = 'none';
+    export let title = 'none';
 </script>
 
 
