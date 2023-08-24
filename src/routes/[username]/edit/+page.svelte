@@ -13,7 +13,10 @@
       updateDoc,
     } from "firebase/firestore";
     import { writable } from "svelte/store";
-  
+    // import { toast } from "svelte-french-toast";
+    // import ToastContainer from "svelte-french-toast";
+    import toast, {Toaster} from 'svelte-french-toast';
+
     const icons = [
       "Twitter",
       "YouTube",
@@ -71,6 +74,7 @@
       await updateDoc(userRef, {
         published: !$userData?.published,
       });
+      toast.success('Successfully Changed Profile Settings!')
     }
   
     function cancelLink() {
@@ -92,28 +96,36 @@
 
   function copyLinkToClipboard() {
     const linkElement = document.createElement("textarea");
-    linkElement.value = `https://localhost:5173/${$userData?.username}`;
+    // linkElement.value = `https://localhost:5173/${$userData?.username}`;
+    linkElement.value = `https://weblink-tawny.vercel.app/${$userData?.username}`;
     document.body.appendChild(linkElement);
     linkElement.select();
     document.execCommand("copy");
     document.body.removeChild(linkElement);
-    
+    toast.success('Link Copied Sucessfully!')
   }
+
+  function handleClick() {
+		toast.success('Link Added Sucessfully!')
+	}
 </script>
 
   <Navbar/>
   <main class="max-w-xl mx-auto">
-    
+    <!-- <ToastContainer position="top-right" /> -->
+    <Toaster />
+
     {#if $userData?.username == $page.params.username}
       <div class="text-center mb-8">
         <p>
           Profile Link:
           <a
             href={`/${$userData?.username}`}
-            class="link link-accent"
+            class="link link-error"
             target="_blank"
           >
-            https://localhost:5173/{$userData?.username}
+          <!-- https://weblink-tawny.vercel.app/{$userData?.username} -->
+          CLICK HERE
           </a>
         </p>
         <button on:click={copyLinkToClipboard} class="btn btn-outline mt-5 btn-xs">
@@ -184,9 +196,9 @@
             bind:value={$formData.url}
           />
           <div class="my-4">
-            {#if !titleIsValid}
+            <!-- {#if !titleIsValid}
               <p class="text-error text-xs">Must have valid title</p>
-            {/if}
+            {/if} -->
             {#if !urlIsValid}
               <p class="text-error text-xs">Must have a valid URL</p>
             {/if}
@@ -198,7 +210,8 @@
           <button
             disabled={!formIsValid}
             type="submit"
-            class="btn btn-success block">Add Link</button
+            class="btn btn-success block"
+            on:click={handleClick}>Add Link</button
           >
   
           <button type="button" class="btn btn-xs my-4" on:click={cancelLink}>Cancel</button>
