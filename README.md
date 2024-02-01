@@ -68,4 +68,4 @@ Contributions are welcome to enhance the functionality and usability of WebLink.
 
 ## License
 
-This project is licensed under the [MIT License].
+This project is licensed under the [GPL-3.0 License].
